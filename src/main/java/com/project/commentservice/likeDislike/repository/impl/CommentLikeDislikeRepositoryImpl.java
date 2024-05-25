@@ -1,6 +1,6 @@
 package com.project.commentservice.likeDislike.repository.impl;
 
-import com.project.commentservice.likeDislike.models.CommentLikeDislike;
+import com.project.commentservice.likeDislike.models.CommentsLikeDislike;
 import com.project.commentservice.likeDislike.repository.CommentLikeDislikeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -19,19 +19,19 @@ public class CommentLikeDislikeRepositoryImpl implements CommentLikeDislikeRepos
     @Override
     @Modifying
     @Transactional
-    public void saveLikeDislike(CommentLikeDislike commentLikeDislike) {
-        Query query = entityManager.createNativeQuery("INSERT into comment_like_dislike (comment_id, `like`, added_by, created_at, updated_at) VALUES (?, ?,?,?,?)");
-        query.setParameter(1, commentLikeDislike.getCommentId());
-        query.setParameter(2, commentLikeDislike.getLike());
-        query.setParameter(3, commentLikeDislike.getAddedBy());
-        query.setParameter(4, commentLikeDislike.getCreatedAt());
-        query.setParameter(5, commentLikeDislike.getUpdatedAt());
+    public void saveLikeDislike(CommentsLikeDislike commentsLikeDislike) {
+        Query query = entityManager.createNativeQuery("INSERT into comments_like_dislike (comment_id, `like`, added_by, created_at, updated_at) VALUES (?, ?,?,?,?)");
+        query.setParameter(1, commentsLikeDislike.getCommentId());
+        query.setParameter(2, commentsLikeDislike.getLike());
+        query.setParameter(3, commentsLikeDislike.getAddedBy());
+        query.setParameter(4, commentsLikeDislike.getCreatedAt());
+        query.setParameter(5, commentsLikeDislike.getUpdatedAt());
         query.executeUpdate();
     }
 
     @Override
     public List<Long> getUsersIdsByReactTypeOnComment(Long commentId, int reactType) {
-        Query query = entityManager.createNativeQuery("SELECT added_by from comment_like_dislike c where c.comment_id =:comment_id and `like` =:like");
+        Query query = entityManager.createNativeQuery("SELECT added_by from comments_like_dislike c where c.comment_id =:comment_id and `like` =:like");
         query.setParameter("comment_id", commentId);
         query.setParameter("like", reactType);
         return query.getResultList();

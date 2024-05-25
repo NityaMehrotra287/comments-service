@@ -43,7 +43,7 @@ public class UserServiceImplTest {
 
         doThrow(new RuntimeException("Simulated exception")).when(userRepository).insertUser(requestDto.getUserName(), requestDto.getEmailId());
         CreateUserResponseDto responseDto = userService.create(requestDto);
-        verify(userRepository, times(1)).insertUser(requestDto.getUserName(), requestDto.getEmailId());
         assertEquals("Failed to add user: Simulated exception", responseDto.getMessage());
+        verify(userRepository, times(1)).insertUser(requestDto.getUserName(), requestDto.getEmailId());
     }
 }

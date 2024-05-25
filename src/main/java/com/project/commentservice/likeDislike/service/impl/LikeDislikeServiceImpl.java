@@ -1,7 +1,7 @@
 package com.project.commentservice.likeDislike.service.impl;
 
-import com.project.commentservice.likeDislike.models.CommentLikeDislike;
-import com.project.commentservice.likeDislike.models.PostLikeDislike;
+import com.project.commentservice.likeDislike.models.CommentsLikeDislike;
+import com.project.commentservice.likeDislike.models.PostsLikeDislike;
 import com.project.commentservice.likeDislike.repository.CommentLikeDislikeRepository;
 import com.project.commentservice.likeDislike.repository.PostLikeDislikeRepository;
 import com.project.commentservice.likeDislike.service.LikeDislikeService;
@@ -25,14 +25,14 @@ public class LikeDislikeServiceImpl implements LikeDislikeService {
 
     @Override
     public void reactOnPost(Long userId, Long postId, int reactType) {
-        PostLikeDislike postLikeDislike = PostLikeDislike.builder().like(reactType).addedBy(userId).postId(postId).createdAt(new Date()).updatedAt(new Date()).build();
-        postLikeDislikeRepository.saveLikeDislike(postLikeDislike);
+        PostsLikeDislike postsLikeDislike = PostsLikeDislike.builder().like(reactType).addedBy(userId).postId(postId).createdAt(new Date()).updatedAt(new Date()).build();
+        postLikeDislikeRepository.saveLikeDislike(postsLikeDislike);
     }
 
     @Override
     public void reactOnComment(Long userId, Long commentId, int reactType) {
-        CommentLikeDislike commentLikeDislike = CommentLikeDislike.builder().like(reactType).addedBy(userId).commentId(commentId).createdAt(new Date()).updatedAt(new Date()).build();
-        commentLikeDislikeRepository.saveLikeDislike(commentLikeDislike);
+        CommentsLikeDislike commentsLikeDislike = CommentsLikeDislike.builder().like(reactType).addedBy(userId).commentId(commentId).createdAt(new Date()).updatedAt(new Date()).build();
+        commentLikeDislikeRepository.saveLikeDislike(commentsLikeDislike);
     }
 
     @Override

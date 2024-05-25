@@ -1,7 +1,6 @@
 package com.project.commentservice.likeDislike.models;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-@Table(name = "post_like_dislike")
-public class PostLikeDislike {
+@Table(name = "posts_like_dislike")
+public class PostsLikeDislike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

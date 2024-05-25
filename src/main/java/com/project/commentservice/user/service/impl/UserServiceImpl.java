@@ -23,8 +23,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public CreateUserResponseDto create(CreateUserRequestDto createUserDto) {
         CreateUserResponseDto response = new CreateUserResponseDto();
-        userRepository.insertUser(createUserDto.getUserName(), createUserDto.getEmailId());
-        response.setMessage("User added successfully");
+        try {
+            userRepository.insertUser(createUserDto.getUserName(), createUserDto.getEmailId());
+            response.setMessage("User added successfully");
+        } catch (Exception e) {
+            response.setMessage("Failed to add user: " + e.getMessage());
+        }
         return response;
     }
 

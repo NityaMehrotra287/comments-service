@@ -11,7 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class CommentLikeDislike {
+@Table(name = "comments_like_dislike")
+public class CommentsLikeDislike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
