@@ -44,9 +44,10 @@ public class CommentServiceImpl implements CommentService {
         return responseDto;
     }
 
-    public List<Comment> getNFirstLevelCommentOfPost(Long postId, int page, int size) {
+    public List<Comment> getNFirstLevelCommentOfPost(Long postId, int page, int size, int n) {
         int start = page * size;
-        List<Comment> firstNComments = commentRepository.getNFirstLevelComments(postId, start, size);
+        int limit = Math.min(n, size);
+        List<Comment> firstNComments = commentRepository.getNFirstLevelComments(postId, start, limit);
         return firstNComments;
     }
 
@@ -103,6 +104,7 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> nextNReplies = commentRepository.getRepliesByCommentId(commentId, start, size);
         return nextNReplies;
     }
+
     @Override
     public long getCommentsCountOnPost(Long postId) {
         long commentCountOnPost = commentRepository.getCommentCountOnPost(postId);

@@ -33,7 +33,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     public List<Comment> getNFirstLevelComments(Long postId, int start, int limit) {
-        Query query = entityManager.createNativeQuery("SELECT * FROM comments c where c.post_id = :post_id", Comment.class);
+        Query query = entityManager.createNativeQuery("SELECT * FROM comments c where c.post_id = :post_id and parent_id is NULL", Comment.class);
         query.setParameter("post_id", postId);
         query.setFirstResult(start);
         query.setMaxResults(limit);

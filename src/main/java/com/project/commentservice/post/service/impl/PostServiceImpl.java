@@ -89,9 +89,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Comment> getNFirstLevelComments(Long postId, int page, int size) {
+    public List<Comment> getNFirstLevelComments(Long postId, int page, int size, int n) {
         validatePost(postId);
-        List<Comment> nFirstLevelCommentOfPost = commentService.getNFirstLevelCommentOfPost(postId, page, size);
+        List<Comment> nFirstLevelCommentOfPost = commentService.getNFirstLevelCommentOfPost(postId, page, size, n);
         if (nFirstLevelCommentOfPost.isEmpty()) {
             return new ArrayList<>();
         }

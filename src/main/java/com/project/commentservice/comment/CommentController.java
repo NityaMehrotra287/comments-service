@@ -29,7 +29,7 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/{commentId}/react")
+    @PostMapping("/{commentId}/react")
     public ResponseEntity<?> reactOnComment(@PathVariable Long commentId, @RequestBody CommentReactRequestDto commentReactRequestDto) {
         try {
             commentReactRequestDto.setCommentId(commentId);

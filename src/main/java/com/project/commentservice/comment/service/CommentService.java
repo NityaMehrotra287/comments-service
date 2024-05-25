@@ -10,7 +10,9 @@ import java.util.List;
 public interface CommentService {
 
     CommentResponseDto createComment(Long userId, String content, Long postId);
-    List<Comment> getNFirstLevelCommentOfPost(Long postId, int page, int size);
+
+    List<Comment> getNFirstLevelCommentOfPost(Long postId, int page, int size, int n);
+
     boolean reactOnComment(CommentReactRequestDto commentReactRequestDto);
 
     CommentResponseDto commentOnComment(CommentRequestDto commentRequestDto);

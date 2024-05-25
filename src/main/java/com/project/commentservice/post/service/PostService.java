@@ -18,7 +18,7 @@ public interface PostService {
 
     boolean reactOnPost(PostReactRequestDto postReactRequestDto);
 
-    List<Comment> getNFirstLevelComments(Long postId, int page, int size);
+    List<Comment> getNFirstLevelComments(Long postId, int page, int size, int n);
 
     List<String> getUsersForReactType(Long postId, int reactType);
 }

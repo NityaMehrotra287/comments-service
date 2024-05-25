@@ -41,7 +41,7 @@ public class PostController {
         }
     }
 
-    @PutMapping("/{postId}/react")
+    @PostMapping("/{postId}/react")
     public ResponseEntity<?> reactOnPost(@PathVariable Long postId, @RequestBody PostReactRequestDto postReactRequestDto) {
         try {
             postReactRequestDto.setPostId(postId);
@@ -65,13 +65,13 @@ public class PostController {
     }
 
     @GetMapping("/{postId}/comments")
-    public ResponseEntity<?> getFirstNLevelComments(@PathVariable Long postId,
-                                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) int size,
-                                                    @RequestParam(value = "pageNo", defaultValue = "0", required = false) int page) {
-
+    public ResponseEntity<?> getPaginatedComments(@PathVariable Long postId,
+                                                  @RequestParam(value = "pageSize", defaultValue = "10", required = false) int size,
+                                                  @RequestParam(value = "pageNo", defaultValue = "0", required = false) int page,
+                                                  @RequestParam(value = "noOfComments", defaultValue = "100", required = false) int noOfComments) {
         try {
             log.info("Get post first n level comments for id :{}", postId);
-            return ResponseEntity.ok(postService.getNFirstLevelComments(postId, page, size));
+            return ResponseEntity.ok(postService.getNFirstLevelComments(postId, page, size, noOfComments));
         } catch (Exception e) {
             log.error("Exception occurred while getting first n level comments and exception message :{}", e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
