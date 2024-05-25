@@ -4,6 +4,9 @@
 # Purpose
 Comment service responsibility is to create a social media basic APIs wherre users can register themselves, create a post, comment on a post, reply on a post and react to a comment.
 
+# Requirements
+Design a comments service for a social media website which can support scalable levels of nesting. The service should return n first level comments. On clicking on view replies, the next level of comments should be fetched. Make reasonable assumptions with reasonable options for extensibility open. All the comments have associated likes and dislikes. One clicking on the likes or dislikes the list of the users participating in the like/dislike shall be displayed.
+
 # Delieverables
 1. Design a basic service which can add comments, likes, dislikes to a social media post, replies to a comment, replies to replies and associated likes or dislikes.
 2. There should be a get api to satisfy the requirements. The API shall be scalable for a service where there can be 1000s of comments and each of the comment having 100s of levels.
@@ -50,7 +53,7 @@ Response
 
 3. Create a post
 ```
-curl --location 'http://localhost:7777/api/v1/post' \
+curl --location 'http://localhost:8080/api/v1/post' \
 --header 'Content-Type: application/json' \
 --data '{
     "userId": 1,
