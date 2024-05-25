@@ -63,12 +63,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPostDetails(Long postId) throws PostNotFoundException {
+    public PostDetailsResponseDto getPostDetails(Long postId) throws PostNotFoundException {
+        PostDetailsResponseDto postDetailsResponseDto = new PostDetailsResponseDto();
         Optional<Post> postById = postRepository.getPostById(postId);  //return like and dislike and comments also
         if (postById.isEmpty()) {
             throw new PostNotFoundException(String.format("Post with postId %s is not present.", postId));
         }
-        return postById.get();
+        long commentsCountOnPost = commentService.getCommentsCountOnPost(postId);
+        postDetailsResponseDto.setPost(postById.get());
+        postDetailsResponseDto.setCommentsCount(commentsCountOnPost);
+        return postDetailsResponseDto;
     }
 
     @Override
@@ -85,24 +89,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Comment> getFirstNLevelComments(Long postId, int page, int size, int n) {
+    public List<Comment> getNFirstLevelComments(Long postId, int page, int size) {
         validatePost(postId);
-        List<Comment> firstNLevelCommentOfPost = commentService.getFirstNLevelCommentOfPost(postId, page, size);
-        if (firstNLevelCommentOfPost.isEmpty()) {
+        List<Comment> nFirstLevelCommentOfPost = commentService.getNFirstLevelCommentOfPost(postId, page, size);
+        if (nFirstLevelCommentOfPost.isEmpty()) {
             return new ArrayList<>();
         }
-        return firstNLevelCommentOfPost;
+        return nFirstLevelCommentOfPost;
     }
 
     @Override
-    public Set<String> getUsersForReactType(Long postId, int reactType) {
-
+    public List<String> getUsersForReactType(Long postId, int reactType) {
         validatePost(postId);
         ReactType.validateReactType(reactType);
-        return null;
-//        ReactType reactTypeEnum = ReactType.valueOf(reactType);
-
-//        return getPost(postId).getReactTypeVsUserIdsMap().get(reactTypeEnum) == null ? Set.of() : getPost(postId).getReactTypeVsUserIdsMap().get(reactTypeEnum);
+        Set<Long> usersListByReactTypeOnPost = likeDislikeService.getUsersListByReactTypeOnPost(postId, reactType);
+        return userService.getUserNamesFromIds(usersListByReactTypeOnPost);
     }
 
     private void validatePost(Long postId) {
@@ -111,5 +112,4 @@ public class PostServiceImpl implements PostService {
             throw new PostNotFoundException(String.format("Post with postId %s is not present.", postId));
         }
     }
-
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/v1/comment")
 @Slf4j
 public class CommentController {
     @Autowired
@@ -63,6 +63,17 @@ public class CommentController {
             return ResponseEntity.ok(commentService.getCommentNextLevelReplies(commentId, page, size));
         } catch (Exception e) {
             log.error("Exception occurred while getting replies om comment and exception message :{}", e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{commentId}/react/{reactType}/users")
+    public ResponseEntity<?> getUsersWrtReactType(@PathVariable Long commentId, @PathVariable int reactType) {
+        try {
+            log.info("Get users for react type :{} and commentId :{}", reactType, commentId);
+            return ResponseEntity.ok(commentService.getUsersForReactType(commentId, reactType));
+        } catch (Exception e) {
+            log.error("Exception occurred while getting users who liked/dislike the comment :{}", e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }

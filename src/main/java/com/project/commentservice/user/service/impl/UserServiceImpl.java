@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -33,5 +35,10 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException(String.format("User with userId %s is not present.", userId));
         }
+    }
+
+    @Override
+    public List<String> getUserNamesFromIds(Set<Long> usersListByReactTypeOnPost) {
+        return userRepository.getUserNamesFromIds(usersListByReactTypeOnPost);
     }
 }

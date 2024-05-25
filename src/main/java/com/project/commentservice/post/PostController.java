@@ -67,12 +67,11 @@ public class PostController {
     @GetMapping("/{postId}/comments")
     public ResponseEntity<?> getFirstNLevelComments(@PathVariable Long postId,
                                                     @RequestParam(value = "pageSize", defaultValue = "10", required = false) int size,
-                                                    @RequestParam(value = "pageNo", defaultValue = "0", required = false) int page,
-                                                    @RequestParam(value = "N", defaultValue = "100", required = false) int N) {
+                                                    @RequestParam(value = "pageNo", defaultValue = "0", required = false) int page) {
 
         try {
             log.info("Get post first n level comments for id :{}", postId);
-            return ResponseEntity.ok(postService.getFirstNLevelComments(postId, page, size, N));
+            return ResponseEntity.ok(postService.getNFirstLevelComments(postId, page, size));
         } catch (Exception e) {
             log.error("Exception occurred while getting first n level comments and exception message :{}", e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());

@@ -21,3 +21,21 @@ CREATE TABLE comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE post_like_dislike (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    post_id INTEGER NOT NULL,
+    `like` INTEGER NOT NULL,
+    added_by BIGINT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE comment_like_dislike (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    comment_id INTEGER NOT NULL,
+    `like` INTEGER NOT NULL,
+    added_by BIGINT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);

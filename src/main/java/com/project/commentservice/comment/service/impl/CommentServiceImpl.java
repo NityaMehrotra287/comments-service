@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -43,9 +44,9 @@ public class CommentServiceImpl implements CommentService {
         return responseDto;
     }
 
-    public List<Comment> getFirstNLevelCommentOfPost(Long postId, int page, int size) {
+    public List<Comment> getNFirstLevelCommentOfPost(Long postId, int page, int size) {
         int start = page * size;
-        List<Comment> firstNComments = commentRepository.getFirstNLevelComments(postId, start, size);
+        List<Comment> firstNComments = commentRepository.getNFirstLevelComments(postId, start, size);
         return firstNComments;
     }
 
@@ -96,10 +97,24 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Object getCommentNextLevelReplies(Long commentId, int page, int size) {
+    public List<Comment> getCommentNextLevelReplies(Long commentId, int page, int size) {
         validateComment(commentId);
-        int skip = page * size;
-        return null;
+        int start = page * size;
+        List<Comment> nextNReplies = commentRepository.getRepliesByCommentId(commentId, start, size);
+        return nextNReplies;
+    }
+    @Override
+    public long getCommentsCountOnPost(Long postId) {
+        long commentCountOnPost = commentRepository.getCommentCountOnPost(postId);
+        return commentCountOnPost;
+    }
+
+    @Override
+    public List<String> getUsersForReactType(Long commentId, int reactType) {
+        validateComment(commentId);
+        ReactType.validateReactType(reactType);
+        Set<Long> usersListByReactTypeOnPost = likeDislikeService.getUsersListByReactTypeOnComment(commentId, reactType);
+        return userService.getUserNamesFromIds(usersListByReactTypeOnPost);
     }
 
     private void validateComment(Long commentId) {

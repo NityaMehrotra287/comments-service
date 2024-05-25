@@ -3,7 +3,6 @@ package com.project.commentservice.post.service;
 
 import com.project.commentservice.comment.models.Comment;
 import com.project.commentservice.exceptions.custom.PostNotFoundException;
-import com.project.commentservice.post.models.Post;
 import com.project.commentservice.post.models.dto.*;
 
 import java.util.List;
@@ -15,11 +14,11 @@ public interface PostService {
 
     CommentResponseDto commentOnPost(CommentRequestDto commentRequestDto);
 
-    Post getPostDetails(Long postId) throws PostNotFoundException;
+    PostDetailsResponseDto getPostDetails(Long postId) throws PostNotFoundException;
 
     boolean reactOnPost(PostReactRequestDto postReactRequestDto);
 
-    List<Comment> getFirstNLevelComments(Long postId, int page, int size, int n);
+    List<Comment> getNFirstLevelComments(Long postId, int page, int size);
 
-    Set<String> getUsersForReactType(Long postId, int reactType);
+    List<String> getUsersForReactType(Long postId, int reactType);
 }

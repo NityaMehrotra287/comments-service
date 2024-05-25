@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -32,5 +34,12 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findById(Long id) {
         User user = entityManager.find(User.class, id);
         return Optional.ofNullable(user);
+    }
+
+    @Override
+    public List<String> getUserNamesFromIds(Set<Long> usersListByReactTypeOnPost) {
+        Query query = entityManager.createNativeQuery("SELECT user_name from users u where u.id IN (?)");
+        query.setParameter(1, usersListByReactTypeOnPost);
+        return query.getResultList();
     }
 }

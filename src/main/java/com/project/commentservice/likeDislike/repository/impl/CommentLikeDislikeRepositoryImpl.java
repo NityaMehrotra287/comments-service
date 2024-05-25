@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CommentLikeDislikeRepositoryImpl implements CommentLikeDislikeRepository {
     @Autowired
@@ -18,12 +20,20 @@ public class CommentLikeDislikeRepositoryImpl implements CommentLikeDislikeRepos
     @Modifying
     @Transactional
     public void saveLikeDislike(CommentLikeDislike commentLikeDislike) {
-        Query query = entityManager.createNativeQuery("INSERT into comment_like_dislike (comment_id, like, added_by, created_at, updated_at) VALUES (?, ?,?,?,?)");
+        Query query = entityManager.createNativeQuery("INSERT into comment_like_dislike (comment_id, `like`, added_by, created_at, updated_at) VALUES (?, ?,?,?,?)");
         query.setParameter(1, commentLikeDislike.getCommentId());
         query.setParameter(2, commentLikeDislike.getLike());
         query.setParameter(3, commentLikeDislike.getAddedBy());
         query.setParameter(4, commentLikeDislike.getCreatedAt());
         query.setParameter(5, commentLikeDislike.getUpdatedAt());
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Long> getUsersIdsByReactTypeOnComment(Long commentId, int reactType) {
+        Query query = entityManager.createNativeQuery("SELECT added_by from comment_like_dislike c where c.comment_id =:comment_id and `like` =:like");
+        query.setParameter("comment_id", commentId);
+        query.setParameter("like", reactType);
+        return query.getResultList();
     }
 }
